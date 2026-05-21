@@ -1,7 +1,6 @@
 import cards.*;
 import game.GameState;
 import model.Deck;
-import model.Pig;
 import model.Player;
 
 import java.util.ArrayList;
@@ -51,6 +50,8 @@ public class Main {
     }
 
     static void startGame(Scanner sc) {
+
+        players.clear();
 
         System.out.println("Bitte Spieler Anzahl eingeben (2-4)");
 
