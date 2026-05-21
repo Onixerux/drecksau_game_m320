@@ -20,9 +20,9 @@ public class WaterbucketCard extends Card {
             return false;
         }
 
-        // Target muss brennen
+        // Target muss brennen (Stall muss vorhanden sein)
         Pig pig = player.getPig(target.getTargetPigIndex());
-        return pig.getBarn().isBurning();
+        return pig.isInBarn() && pig.getBarn().isBurning();
     }
 
     @Override

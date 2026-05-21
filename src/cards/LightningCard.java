@@ -28,7 +28,7 @@ public class LightningCard extends Card{
 
     @Override
     public void applyCard(GameState state, Player player, Target target) {
-        Pig pig = player.getPig(target.getTargetPigIndex());
+        Pig pig = target.getTargetPlayer().getPig(target.getTargetPigIndex());
         pig.destroyBarn();
     }
 }
