@@ -131,8 +131,8 @@ SPIEL-LOGIK
 
 [x] Nach Spielzug
     [x] Karte auf Ablagestapel  (in der applyCard methode definiert)
-    [ ] Spieler zieht wieder auf 3 Karten nach
-    [ ] Nächster Spieler ist an der Reihe
+    [x] Spieler zieht wieder auf 3 Karten nach
+    [x] Nächster Spieler ist an der Reihe
 
 ========================
 SPEZIALFÄLLE
