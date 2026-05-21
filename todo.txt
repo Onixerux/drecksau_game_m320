@@ -100,11 +100,11 @@ HANDKARTEN
 
 [x] Spieler hat immer 3 Karten
 
-[g] Funktionen
-    [ ] Karten anzeigen
-    [ ] Karte auswählen
-    [ ] Karte ziehen
-    [ ] Karte ablegen
+[x] Funktionen
+    [x] Karten anzeigen
+    [x] Karte auswählen
+    [x] Karte ziehen
+    [x] Karte ablegen
 
 ========================
 SPIEL-LOGIK
