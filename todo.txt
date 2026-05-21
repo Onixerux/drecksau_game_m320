@@ -129,7 +129,7 @@ SPIEL-LOGIK
         [ ] Bauer-schrubbt-die-Sau-Karte
         [ ] Feuerkarte
 
-[ ] Nach Spielzug
+[x] Nach Spielzug
     [x] Karte auf Ablagestapel  (in der applyCard methode definiert)
     [ ] Spieler zieht wieder auf 3 Karten nach
     [ ] Nächster Spieler ist an der Reihe
@@ -156,7 +156,7 @@ DECK-SYSTEM
 
 [x] Nachziehstapel
     [x] Karten ziehen (draw methode)
-    [y] Prüfen ob Stapel leer ist
+    [x] Prüfen ob Stapel leer ist
 
 [x] Ablagestapel
     [x] Gespielte Karten ablegen
@@ -171,7 +171,7 @@ SIEGBEDINGUNG
 
 [x] Prüfen ob alle Schweine schmutzig sind
 [x] Gewinner anzeigen
-[ ] Spiel beenden
+[x] Spiel beenden
 
 ========================
 README.md
