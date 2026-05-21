@@ -1,7 +1,6 @@
 import cards.*;
 import game.GameState;
 import model.Deck;
-import model.Pig;
 import model.Player;
 
 import java.util.ArrayList;
@@ -52,6 +51,8 @@ public class Main {
 
     static void startGame(Scanner sc) {
 
+        players.clear();
+
         System.out.println("Bitte Spieler Anzahl eingeben (2-4)");
 
         int playerCount = sc.nextInt();
@@ -94,6 +95,30 @@ public class Main {
 
             Player current = state.getCurrentPlayer();
 
+            //Prüfen ob der current eine Spielbare Karte hat
+            boolean hasPlayableCard = hasPlayableCard(state, current);
+
+            if (!hasPlayableCard) {
+                System.out.println(current.getNickname() + " hat keine spielbaren Karten.");
+                System.out.println("Alle Handkarten werden abgelegt und 3 neue Karten werden gezogen.");
+
+                // Alle Handkarten auf den Ablagestapel legen
+                List<Card> handCopy = new ArrayList<>(current.getHand());
+
+                for (Card card : handCopy) {
+                    current.removeCard(card);
+                    state.getDeck().discard(card);
+                }
+
+                // 3 neue Karten ziehen
+                for (int i = 0; i < 3; i++) {
+                    current.addCard(state.getDeck().draw());
+                }
+
+                state.advanceTurn();
+                continue;
+            }
+
             System.out.println(current.getNickname() + " ist dran.");
             System.out.println("Bitte wähle die Karte welche du spielen möchtest.");
 
@@ -133,9 +158,9 @@ public class Main {
             }
 
             boolean isTargetOpponent = false;
-            for (Player gegner : state.getOpponents(current)) {
-                for (int i = 0; i < gegner.getPigs().size(); i++) {
-                    if (selectedCard.canPlay(state, current, Target.ofPig(gegner, i))) {
+            for (Player opponent : state.getOpponents(current)) {
+                for (int i = 0; i < opponent.getPigs().size(); i++) {
+                    if (selectedCard.canPlay(state, current, Target.ofPig(opponent, i))) {
                         isTargetOpponent = true;
                         break;
                     }
@@ -144,6 +169,7 @@ public class Main {
 
 
             Target target = null;
+
             if (isTargetOwnPig) {
 
                 for (int i = 0; i < current.getPigs().size(); i++) {
@@ -168,12 +194,21 @@ public class Main {
             // Karte anwenden
             selectedCard.applyCard(state, current, target);
             current.removeCard(selectedCard);
-            current.addCard(state.getDeck().draw());
+            state.getDeck().discard(selectedCard);
+
+            for (int i = current.getHand().size(); i < 3; i++) {
+                current.addCard(state.getDeck().draw());
+            }
+
 
             System.out.println(selectedCard.getName() + " wurde gespielt");
 
             // Gewinnbedingung prüfen NACH dem Spielen der Karte
             state.checkWinCondition();
+
+            //ToDO Console clear damit spieler 2 die Karten von spieler 1 nicht sieht
+
+
 
             if (state.isGameOver()) {
                 System.out.println(state.getWinner().getNickname() + " hat gewonnen!");
@@ -197,5 +232,30 @@ public class Main {
         System.out.println("1 - Neues Normales Spiel");
         System.out.println("2 - Neues Spiel mit Extension");
         System.out.println("0 - Beenden");
+    }
+
+
+    private static boolean hasPlayableCard(GameState state, Player current) {
+
+        for (Card card : current.getHand()) {
+
+            // Eigene Schweine prüfen
+            for (int i = 0; i < current.getPigs().size(); i++) {
+                if (card.canPlay(state, current, Target.ofPig(current, i))) {
+                    return true;
+                }
+            }
+
+            // Gegner-Schweine prüfen
+            for (Player opponent : state.getOpponents(current)) {
+                for (int i = 0; i < opponent.getPigs().size(); i++) {
+                    if (card.canPlay(state, current, Target.ofPig(opponent, i))) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

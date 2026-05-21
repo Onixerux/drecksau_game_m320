@@ -53,4 +53,25 @@ public class Pig {
     public boolean isBarnProtectedFromLightning() {
         return barn != null && barn.hasLightningRod();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        // Sauberkeit
+        sb.append(dirty ? "Dreckig" : "Sauber");
+
+        // Stall-Status
+        if (barn == null) {
+            sb.append(" | Kein Stall");
+        } else {
+            sb.append(" | Stall");
+            if (barn.hasDoor()) sb.append(", Tür");
+            if (barn.hasLightningRod()) sb.append(", Blitzableiter");
+            if (barn.isBurning()) sb.append(", BRENNT");
+        }
+
+        return sb.toString();
+
+    }
 }
