@@ -192,8 +192,8 @@ Erweiterung
     -> Es kann immer nur ein Haus gleichzeitig brennen
 
 [x] Brennendes Haus System
-    [ ] Status "Brennt" hinzufügen
-    [ ] Speichern welches Haus brennt
+    [x] Status "Brennt" hinzufügen
+    [x] Speichern welches Haus brennt
 
 [ ] Feuer-Schaden pro Runde
     -> Immer wenn der betroffene Spieler am Zug ist:
