@@ -161,9 +161,9 @@ DECK-SYSTEM
 [x] Ablagestapel
     [x] Gespielte Karten ablegen
 
-[] Wenn Nachziehstapel leer 
-    [ ] Ablagestapel mischen
-    [ ] Neuer Nachziehstapel erstellen
+[x] Wenn Nachziehstapel leer 
+    [x] Ablagestapel mischen
+    [x] Neuer Nachziehstapel erstellen
 
 ========================
 SIEGBEDINGUNG
@@ -177,9 +177,9 @@ SIEGBEDINGUNG
 README.md
 ========================
 
-[ ] Spielziel erklären
-[ ] Karten erklären
-[ ] Spielablauf erklären
+[x] Spielziel erklären
+[x] Karten erklären
+[x] Spielablauf erklären
 [ ] Startanleitung hinzufügen
 
 
@@ -225,7 +225,7 @@ REGENKARTE ERWEITERN
 
 [x] Regenkarte löscht zusätzlich Feuer
 
-[x] Spezialregel:
+[ ] Spezialregel:
     -> Nachdem das Feuer gelöscht wurde,
        wird trotzdem noch 1x Feuerschaden verursacht
 
