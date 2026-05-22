@@ -206,8 +206,10 @@ public class Main {
             // Gewinnbedingung prüfen NACH dem Spielen der Karte
             state.checkWinCondition();
 
-            //ToDO Console clear damit spieler 2 die Karten von spieler 1 nicht sieht
-
+            //Console Clear
+            for (int i = 0; i < 100; i++) {
+                System.out.println();
+            }
 
 
             if (state.isGameOver()) {

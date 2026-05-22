@@ -1,5 +1,5 @@
 Drecksau
-Ein strategisches Kartenspiel für 2-4 Spieler. Wer zuerst alle seine Schweine dreckig macht, gewinnt.
+Ein strategisches Kartenspiel für 2-4 Spieler. Wer zuerst alle seine Schweine dreckig hat, gewinnt.
 
 Spielziel
 Mache alle deine eigenen Schweine so schnell wie möglich schmutzig, bevor es ein anderer Spieler schafft. Gleichzeitig kannst du die Schweine deiner Gegner sauber waschen oder ihre Ställe zerstören, um sie aufzuhalten. 
