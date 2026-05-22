@@ -5,6 +5,7 @@ import cards.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class Player {
 
@@ -50,5 +51,15 @@ public class Player {
             if (!pig.isDirty()) return false;
         }
         return true;
+    }
+
+    public static void createPlayers(ArrayList<Player> players, Scanner sc, int count, int pigCount) {
+
+        sc.nextLine();
+
+        for (int i = 0; i < count; i++) {
+            System.out.println("Bitte Name des " + (i + 1) + ". Spielers eingeben");
+            players.add(new Player(sc.nextLine(), pigCount));
+        }
     }
 }

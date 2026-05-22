@@ -74,7 +74,7 @@ public class Main {
                 return;
         }
 
-        createPlayers(players, sc, playerCount, pigCount);
+        Player.createPlayers(players, sc, playerCount, pigCount);
 
         Deck deck = Deck.createStandardDeck(new Random());
 
@@ -220,15 +220,7 @@ public class Main {
         }
     }
 
-    static void createPlayers(ArrayList<Player> players, Scanner sc, int count, int pigCount) {
 
-        sc.nextLine();
-
-        for (int i = 0; i < count; i++) {
-            System.out.println("Bitte Name des " + (i + 1) + ". Spielers eingeben");
-            players.add(new Player(sc.nextLine(), pigCount));
-        }
-    }
 
     static void menu() {
         System.out.println("1 - Neues Normales Spiel");
