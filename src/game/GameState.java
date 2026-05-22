@@ -1,5 +1,7 @@
 package game;
 
+import cards.Card;
+import cards.Target;
 import model.Deck;
 import model.Player;
 
@@ -66,5 +68,29 @@ public class GameState {
             }
         }
         return opponents;
+    }
+
+    public static boolean hasPlayableCard(GameState state, Player current) {
+
+        for (Card card : current.getHand()) {
+
+            // Eigene Schweine prüfen
+            for (int i = 0; i < current.getPigs().size(); i++) {
+                if (card.canPlay(state, current, Target.ofPig(current, i))) {
+                    return true;
+                }
+            }
+
+            // Gegner-Schweine prüfen
+            for (Player opponent : state.getOpponents(current)) {
+                for (int i = 0; i < opponent.getPigs().size(); i++) {
+                    if (card.canPlay(state, current, Target.ofPig(opponent, i))) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
