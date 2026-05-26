@@ -26,5 +26,27 @@ public class Barn {
     public void extinguishFireRain() {
         this.isOnFire = false;
         //TODO implement a tick of damage when this is used
+        boolean burnedDown = tickFireDamage();
+        this.isOnFire = false;
+        return burnedDown;
+    }
+
+    public boolean tickFireDamage() {
+        if (!isOnFire) return false;
+
+        if (hasLightningRod) {
+            hasLightningRod = false;
+            System.out.println("Blitzableiter wurde zerstört!");
+            return false;
+        }
+        else if (hasDoor) {
+            hasDoor = false;
+            System.out.println("Tür wurde zerstört!");
+            return false;
+        } else {
+            destroyBarn();
+            System.out.println("Der Stall brennt ab!");
+            return true;
+        }
     }
 }
