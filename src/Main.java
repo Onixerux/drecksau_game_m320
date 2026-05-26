@@ -199,12 +199,13 @@ public class Main {
             // Karte anwenden
             if (target == null) {
                 System.out.println("Ausgewählte Karte hat kein gültiges Ziel.");
-                System.out.println("Bitte eine andere Karte auswählen.");
+                System.out.println("Bitte eine andere Karte auswählen.\n");
                 continue;
             }
 
             if (!selectedCard.canPlay(state, current, target)) {
                 System.out.println("Anforderungen nicht erfüllt!");
+                System.out.println("Bitte eine andere Karte auswählen.\n");
                 continue;
             }
 
