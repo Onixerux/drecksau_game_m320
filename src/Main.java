@@ -24,15 +24,16 @@ public class Main {
 
             int menuChoice = 0;
 
-            System.out.print("Bitte Auswahl eingeben: ");
-            String input = sc.nextLine();
-
-            try {
-                menuChoice = Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.");
+            while(true) {
+                System.out.print("Bitte Auswahl eingeben: ");
+                String input = sc.nextLine();
+                try {
+                    menuChoice = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.");
+                }
             }
-
             switch (menuChoice) {
                 case 1:
                     Deck.extension = false;

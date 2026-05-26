@@ -4,6 +4,7 @@ import cards.Card;
 import cards.Target;
 import model.Deck;
 import model.Player;
+import model.Pig;
 
 import java.util.ArrayList;
 import java.util.Collections;

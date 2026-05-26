@@ -1,6 +1,8 @@
 package model;
 
 
+import cards.Target;
+
 public class Barn {
 
     private boolean hasDoor;
@@ -24,11 +26,9 @@ public class Barn {
     public void extinguishFire() { this.isOnFire = false;}
 
     public void extinguishFireRain() {
-        this.isOnFire = false;
         //TODO implement a tick of damage when this is used
-        boolean burnedDown = tickFireDamage();
+        tickFireDamage();
         extinguishFire();
-        return burnedDown;
     }
 
     public boolean tickFireDamage() {
@@ -44,7 +44,6 @@ public class Barn {
             System.out.println("Tür wurde zerstört!");
             return false;
         } else {
-            destroyBarn();
             System.out.println("Der Stall brennt ab!");
             return true;
         }
