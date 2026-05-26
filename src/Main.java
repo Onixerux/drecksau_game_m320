@@ -97,6 +97,8 @@ public class Main {
 
             Player current = state.getCurrentPlayer();
 
+            state.applyFireDamage();
+
             //Prüfen ob der current eine Spielbare Karte hat
             boolean hasPlayableCard = hasPlayableCard(state, current);
 
