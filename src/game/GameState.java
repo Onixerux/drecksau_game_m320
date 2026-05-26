@@ -93,4 +93,16 @@ public class GameState {
 
         return false;
     }
+
+    public void applyFireDamage() {
+        Player current = getCurrentPlayer();
+        for (Pig pig : current.getPigs()) {
+            if (pig.isInBarn() && pig.getBarn().isBurning()) {
+                boolean burnedDown = pig.getBarn().tickFireDamage();
+                if (burnedDown) {
+                    pig.destroyBarn();
+                }
+            }
+        }
+    }
 }
