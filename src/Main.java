@@ -3,10 +3,7 @@ import game.GameState;
 import model.Deck;
 import model.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 import static game.GameState.hasPlayableCard;
 
@@ -175,25 +172,57 @@ public class Main {
 
             Target target = null;
 
-            if (isTargetOwnPig) {
+            try {
+                if (isTargetOwnPig) {
 
-                for (int i = 0; i < current.getPigs().size(); i++) {
-                    System.out.println(i + 1 + ": " + current.getPig(i).toString());
+                    for (int i = 0; i < current.getPigs().size(); i++) {
+                        System.out.println(i + 1 + ": " + current.getPig(i).toString());
+                    }
+                    int pigChoice;
+                    while (true) {
+                        pigChoice = sc.nextInt() - 1;
+                        sc.nextLine();
+                        if (pigChoice >= 0 && pigChoice < current.getPigs().size()) break;
+                        System.out.println("Ungültige Auswahl!");
+                        System.out.print("Bitte gib erneut ein: ");
+                    }
+                    target = Target.ofPig(current, pigChoice);
+
+                } else if (isTargetOpponent) {
+
+                    for (int i = 0; i < state.getOpponents(current).size(); i++) {
+                        System.out.println(i + 1 + ": " + state.getOpponents(current).get(i).getNickname());
+                    }
+
+                    int playerChoice;
+                    while (true) {
+                        playerChoice = sc.nextInt() - 1;
+                        sc.nextLine();
+                        if (playerChoice >= 0 && playerChoice < state.getOpponents(current).size()) break;
+                        System.out.println("Ungültige Auswahl!");
+                        System.out.print("Bitte gib erneut ein: ");
+                    }
+                    Player targetPlayer = state.getOpponents(current).get(playerChoice);
+
+                    for (int j = 0; j < targetPlayer.getPigs().size(); j++) {
+                        System.out.println(j + 1 + ": " + targetPlayer.getPig(j).toString());
+
+                    }
+
+                    int pigChoice;
+                    while (true) {
+                        pigChoice = sc.nextInt() - 1;
+                        sc.nextLine();
+                        if (pigChoice >= 0 && pigChoice < targetPlayer.getPigs().size()) break;
+                        System.out.println("Ungültige Auswahl!");
+                        System.out.print("Bitte gib erneut ein: ");
+                    }
+                    target = Target.ofPig(targetPlayer, pigChoice);
                 }
-                target = Target.ofPig(current, sc.nextInt() - 1);
-
-            } else if (isTargetOpponent) {
-
-                for (int i = 0; i < state.getOpponents(current).size(); i++) {
-                    System.out.println(i + 1 + ": " + state.getOpponents(current).get(i).getNickname());
-                }
-                Player targetPlayer = state.getOpponents(current).get(sc.nextInt() - 1);
-
-                for (int j = 0; j < targetPlayer.getPigs().size(); j++) {
-                    System.out.println(j + 1 + ": " + targetPlayer.getPig(j).toString());
-
-                }
-                target = Target.ofPig(targetPlayer, sc.nextInt() - 1);
+            } catch (Exception e) {
+                System.out.println("Bitte gib eine Zahl ein!\n");
+                sc.nextLine();
+                continue;
             }
 
             // Karte anwenden
@@ -208,7 +237,6 @@ public class Main {
                 System.out.println("Bitte eine andere Karte auswählen.\n");
                 continue;
             }
-
             selectedCard.applyCard(state, current, target);
             current.removeCard(selectedCard);
             state.getDeck().discard(selectedCard);
