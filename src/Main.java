@@ -197,6 +197,16 @@ public class Main {
             }
 
             // Karte anwenden
+            if (target == null) {
+                System.out.println("Kein gültiges Ziel ausgewählt!");
+                continue;
+            }
+
+            if (!selectedCard.canPlay(state, current, target)) {
+                System.out.println("Anforderungen nicht erfüllt!");
+                continue;
+            }
+
             selectedCard.applyCard(state, current, target);
             current.removeCard(selectedCard);
             state.getDeck().discard(selectedCard);
