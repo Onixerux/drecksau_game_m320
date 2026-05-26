@@ -199,6 +199,7 @@ public class Main {
             // Karte anwenden
             if (target == null) {
                 System.out.println("Ausgewählte Karte hat kein gültiges Ziel.");
+                System.out.println("Bitte eine andere Karte auswählen.");
                 continue;
             }
 
