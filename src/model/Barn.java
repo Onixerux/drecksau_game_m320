@@ -27,7 +27,7 @@ public class Barn {
         this.isOnFire = false;
         //TODO implement a tick of damage when this is used
         boolean burnedDown = tickFireDamage();
-        this.isOnFire = false;
+        extinguishFire();
         return burnedDown;
     }
 
