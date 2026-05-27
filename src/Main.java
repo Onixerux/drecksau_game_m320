@@ -19,9 +19,9 @@ public class Main {
 
             menu();
 
-            int menuChoice = 0;
+            int menuChoice;
 
-            while(true) {
+            while (true) {
                 System.out.print("Bitte Auswahl eingeben: ");
                 String input = sc.nextLine();
                 try {
@@ -151,23 +151,9 @@ public class Main {
 
             Card selectedCard = hand.get(choice);
 
-            boolean isTargetOwnPig = false;
-            for (int i = 0; i < current.getPigs().size(); i++) {
-                if (selectedCard.canPlay(state, current, Target.ofPig(current, i))) {
-                    isTargetOwnPig = true;
-                    break;
-                }
-            }
+            boolean isTargetOwnPig = Target.isTargetOwnPig(state, current, selectedCard);
 
-            boolean isTargetOpponent = false;
-            for (Player opponent : state.getOpponents(current)) {
-                for (int i = 0; i < opponent.getPigs().size(); i++) {
-                    if (selectedCard.canPlay(state, current, Target.ofPig(opponent, i))) {
-                        isTargetOpponent = true;
-                        break;
-                    }
-                }
-            }
+            boolean isTargetOpponent = Target.isTargetOpponent(state, current, selectedCard);
 
 
             Target target = null;
@@ -266,13 +252,9 @@ public class Main {
     }
 
 
-
     static void menu() {
         System.out.println("1 - Neues Normales Spiel");
         System.out.println("2 - Neues Spiel mit Extension");
         System.out.println("0 - Beenden");
     }
-
-
-
 }

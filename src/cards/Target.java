@@ -1,5 +1,6 @@
 package cards;
 
+import game.GameState;
 import model.Player;
 
 public class Target {
@@ -37,4 +38,27 @@ public class Target {
     public int getTargetPigIndex() {
         return targetPigIndex;
     }
+
+    public static boolean isTargetOwnPig(GameState state, Player current, Card selectedCard) {
+        for (int i = 0; i < current.getPigs().size(); i++) {
+            if (selectedCard.canPlay(state, current, Target.ofPig(current, i))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isTargetOpponent(GameState state, Player current, Card selectedCard) {
+        for (Player opponent : state.getOpponents(current)) {
+            for (int i = 0; i < opponent.getPigs().size(); i++) {
+                if (selectedCard.canPlay(state, current, Target.ofPig(opponent, i))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
 }
