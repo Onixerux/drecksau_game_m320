@@ -81,6 +81,7 @@ public class Main {
 
         Player.createPlayers(players, sc, playerCount, pigCount);
 
+
         Deck deck = Deck.createStandardDeck(new Random());
 
         for (int i = 0; i < HandSize; i++) {
@@ -223,7 +224,8 @@ public class Main {
 
     static void clearConsole() {
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        for (int i = 0; i < 100; i++){
+            System.out.println(" ");
+        }
     }
 }

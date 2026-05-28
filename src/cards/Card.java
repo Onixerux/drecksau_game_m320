@@ -15,7 +15,7 @@ public abstract class Card {
     public String getName() {
         return name;
     }
-//von ki generiert damit über der canplay funktion, wenn man über die inputs hover es anzeigt, für was der input gut ist
+    //von ki generiert damit über der CanPlay funktion, wenn man über die inputs hover es anzeigt, für was der input gut ist
     /**
      * Checks whether this card can legally be played by the given player
      * with the given target in the current game state.

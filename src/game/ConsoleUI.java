@@ -29,7 +29,6 @@ public class ConsoleUI {
     public static Target selectOwnPig(Scanner sc, Player current) {
 
         for (int i = 0; i < current.getPigs().size(); i++) {
-
             System.out.println((i + 1) + ": " + current.getPig(i).toString());
         }
 
