@@ -1,4 +1,5 @@
 import cards.*;
+import game.ConsoleUI;
 import game.GameState;
 import model.Deck;
 import model.Player;
@@ -9,6 +10,8 @@ import static game.GameState.hasPlayableCard;
 
 public class Main {
 
+    static final int HandSize = 3;
+
     static ArrayList<Player> players = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -17,32 +20,25 @@ public class Main {
 
         while (true) {
 
-            menu();
+            ConsoleUI.menu();
 
-            int menuChoice;
+            int menuChoice = ConsoleUI.readInt(sc, "Bitte Auswahl eingeben: ");
 
-            while (true) {
-                System.out.print("Bitte Auswahl eingeben: ");
-                String input = sc.nextLine();
-                try {
-                    menuChoice = Integer.parseInt(input);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.");
-                }
-            }
             switch (menuChoice) {
                 case 1:
                     Deck.extension = false;
                     startGame(sc);
                     break;
+
                 case 2:
                     Deck.extension = true;
                     startGame(sc);
                     break;
+
                 case 0:
                     System.out.println("Spiel wird beendet");
                     return;
+
                 default:
                     System.out.println("Ungültige Auswahl");
             }
@@ -53,9 +49,18 @@ public class Main {
 
         players.clear();
 
-        System.out.println("Bitte Spieler Anzahl eingeben (2-4)");
+        int playerCount;
 
-        int playerCount = sc.nextInt();
+        while (true) {
+
+            playerCount = ConsoleUI.readInt(sc, "Bitte Spieler Anzahl eingeben (2-4): ");
+
+            if (playerCount >= 2 && playerCount <= 4) {
+                break;
+            }
+
+            System.out.println("Bitte eine Zahl zwischen 2 und 4 eingeben.");
+        }
 
         int pigCount;
 
@@ -78,7 +83,7 @@ public class Main {
 
         Deck deck = Deck.createStandardDeck(new Random());
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < HandSize; i++) {
             for (Player player : players) {
                 player.addCard(deck.draw());
             }
@@ -97,25 +102,16 @@ public class Main {
 
             state.applyFireDamage();
 
-            //Prüfen ob der current eine Spielbare Karte hat
-            boolean hasPlayableCard = hasPlayableCard(state, current);
+            boolean playableCardExists = hasPlayableCard(state, current);
 
-            if (!hasPlayableCard) {
+            if (!playableCardExists) {
+
                 System.out.println(current.getNickname() + " hat keine spielbaren Karten.");
-                System.out.println("Alle Handkarten werden abgelegt und 3 neue Karten werden gezogen.");
+                System.out.println("Alle Handkarten werden abgelegt und neue Karten werden gezogen.");
 
-                // Alle Handkarten auf den Ablagestapel legen
-                List<Card> handCopy = new ArrayList<>(current.getHand());
+                discardHand(state, current);
 
-                for (Card card : handCopy) {
-                    current.removeCard(card);
-                    state.getDeck().discard(card);
-                }
-
-                // 3 neue Karten ziehen
-                for (int i = 0; i < 3; i++) {
-                    current.addCard(state.getDeck().draw());
-                }
+                refillHand(state, current);
 
                 state.advanceTurn();
                 continue;
@@ -133,20 +129,14 @@ public class Main {
             int choice;
 
             while (true) {
-                try {
-                    System.out.print("Auswahl: ");
-                    choice = sc.nextInt() - 1;
-                    sc.nextLine();
 
-                    if (choice < 0 || choice >= hand.size()) {
-                        System.out.println("Ungültige Kartenauswahl!");
-                        continue;
-                    }
+                choice = ConsoleUI.readInt(sc, "Auswahl: ") - 1;
+
+                if (choice >= 0 && choice < hand.size()) {
                     break;
-                } catch (Exception e) {
-                    System.out.println("Bitte gib eine Zahl ein!");
-                    sc.nextLine();
                 }
+
+                System.out.println("Ungültige Kartenauswahl!");
             }
 
             Card selectedCard = hand.get(choice);
@@ -155,106 +145,85 @@ public class Main {
 
             boolean isTargetOpponent = Target.isTargetOpponent(state, current, selectedCard);
 
-
             Target target = null;
 
-            try {
-                if (isTargetOwnPig) {
+            if (isTargetOwnPig) {
 
-                    for (int i = 0; i < current.getPigs().size(); i++) {
-                        System.out.println(i + 1 + ": " + current.getPig(i).toString());
-                    }
-                    int pigChoice;
-                    while (true) {
-                        pigChoice = sc.nextInt() - 1;
-                        sc.nextLine();
-                        if (pigChoice >= 0 && pigChoice < current.getPigs().size()) break;
-                        System.out.println("Ungültige Auswahl!");
-                        System.out.print("Bitte gib erneut ein: ");
-                    }
-                    target = Target.ofPig(current, pigChoice);
+                target = ConsoleUI.selectOwnPig(sc, current);
 
-                } else if (isTargetOpponent) {
+            } else if (isTargetOpponent) {
 
-                    for (int i = 0; i < state.getOpponents(current).size(); i++) {
-                        System.out.println(i + 1 + ": " + state.getOpponents(current).get(i).getNickname());
-                    }
-
-                    int playerChoice;
-                    while (true) {
-                        playerChoice = sc.nextInt() - 1;
-                        sc.nextLine();
-                        if (playerChoice >= 0 && playerChoice < state.getOpponents(current).size()) break;
-                        System.out.println("Ungültige Auswahl!");
-                        System.out.print("Bitte gib erneut ein: ");
-                    }
-                    Player targetPlayer = state.getOpponents(current).get(playerChoice);
-
-                    for (int j = 0; j < targetPlayer.getPigs().size(); j++) {
-                        System.out.println(j + 1 + ": " + targetPlayer.getPig(j).toString());
-
-                    }
-
-                    int pigChoice;
-                    while (true) {
-                        pigChoice = sc.nextInt() - 1;
-                        sc.nextLine();
-                        if (pigChoice >= 0 && pigChoice < targetPlayer.getPigs().size()) break;
-                        System.out.println("Ungültige Auswahl!");
-                        System.out.print("Bitte gib erneut ein: ");
-                    }
-                    target = Target.ofPig(targetPlayer, pigChoice);
-                }
-            } catch (Exception e) {
-                System.out.println("Bitte gib eine Zahl ein!\n");
-                sc.nextLine();
-                continue;
+                target = ConsoleUI.selectOpponentPig(sc, state, current);
             }
 
-            // Karte anwenden
             if (target == null) {
+
                 System.out.println("Ausgewählte Karte hat kein gültiges Ziel.");
                 System.out.println("Bitte eine andere Karte auswählen.\n");
+
                 continue;
             }
 
             if (!selectedCard.canPlay(state, current, target)) {
+
                 System.out.println("Anforderungen nicht erfüllt!");
                 System.out.println("Bitte eine andere Karte auswählen.\n");
+
                 continue;
             }
-            selectedCard.applyCard(state, current, target);
-            current.removeCard(selectedCard);
-            state.getDeck().discard(selectedCard);
 
-            for (int i = current.getHand().size(); i < 3; i++) {
-                current.addCard(state.getDeck().draw());
-            }
+            playCard(state, current, selectedCard, target);
 
+            refillHand(state, current);
 
             System.out.println(selectedCard.getName() + " wurde gespielt");
 
-            // Gewinnbedingung prüfen NACH dem Spielen der Karte
             state.checkWinCondition();
 
-            //Console Clear
-            for (int i = 0; i < 100; i++) {
-                System.out.println();
-            }
-
+            clearConsole();
 
             if (state.isGameOver()) {
+
                 System.out.println(state.getWinner().getNickname() + " hat gewonnen!");
+
             } else {
+
                 state.advanceTurn();
             }
         }
     }
 
+    static void discardHand(GameState state, Player player) {
 
-    static void menu() {
-        System.out.println("1 - Neues Normales Spiel");
-        System.out.println("2 - Neues Spiel mit Extension");
-        System.out.println("0 - Beenden");
+        List<Card> handCopy = new ArrayList<>(player.getHand());
+
+        for (Card card : handCopy) {
+
+            player.removeCard(card);
+            state.getDeck().discard(card);
+        }
+    }
+
+    static void refillHand(GameState state, Player player) {
+
+        for (int i = player.getHand().size(); i < HandSize; i++) {
+
+            player.addCard(state.getDeck().draw());
+        }
+    }
+
+    static void playCard(GameState state, Player player, Card card, Target target) {
+
+        card.applyCard(state, player, target);
+
+        player.removeCard(card);
+
+        state.getDeck().discard(card);
+    }
+
+    static void clearConsole() {
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
